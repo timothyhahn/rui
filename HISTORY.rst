@@ -3,6 +3,10 @@
 History
 -------
 
+0.2.1 (2014-1-25)
+++++++++++++++++++
+* Realized I was even doing that wrong - looked at Facebook's tornado to figure it out
+
 0.2.0 (2014-1-25)
 ++++++++++++++++++
 
