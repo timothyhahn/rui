@@ -4,7 +4,8 @@ from abc import abstractmethod, ABCMeta
 from uuid import uuid1
 from hashlib import md5
 from .exceptions import (DuplicateEntityError, DuplicateSystemError,
-                         UnmanagedEntityError, NonUniqueTagError)
+                         UnmanagedEntityError, UnmanagedSystemError,
+                         NonUniqueTagError, DeadEntityError)
 
 
 class World(object):
@@ -17,13 +18,15 @@ class World(object):
         self._systems = list()
         self._groups = dict()
 
-    def add_entity(self, entity):
+    def add_entity(self, entity, second=False):
         ''' Add entity to world.
             entity is of type Entity
         '''
         if not entity in self._entities:
-            entity.set_world(self)
-            self._entities.append(entity)
+            if second:
+                self._entities.append(entity)
+            else:
+                entity.set_world(self)
         else:
             raise DuplicateEntityError(entity)
 
@@ -31,9 +34,7 @@ class World(object):
         ''' Add multiple entities to world
             All members of entities are of type Entity
         '''
-
         for entity in entities:
-            entity.set_world(self)
             self.add_entity(entity)
 
     def add_system(self, system):
@@ -69,6 +70,27 @@ class World(object):
         (optionally) tag is a string that is the tag of the Entity.
         '''
         return Entity(tag)
+
+    def remove_entity(self, entity, second=False):
+        '''
+        Removes entity from world and kills entity
+        '''
+        if entity in self._entities:
+            if second:
+                self._entities.remove(entity)
+            else:
+                entity.kill()
+        else:
+            raise UnmanagedEntityError(entity)
+
+    def remove_system(self, system):
+        '''
+        Removes system from world and kills system
+        '''
+        if system in self._systems:
+            self._systems.remove(system)
+        else:
+            raise UnmanagedSystemError(system)
 
     def get_entity_by_tag(self, tag):
         '''
@@ -134,7 +156,20 @@ class Entity(object):
         self._tag = tag
         self._uuid = uuid1().int
         self._components = list()
+        self._world = None
 
+    def check_alive(function):
+        def check_and_call(self, *args, **kwargs):
+            '''
+            Checks if alive before doing something
+            '''
+            if self._uuid:
+                return function(self, *args, **kwargs)
+            else:
+                raise DeadEntityError()
+        return check_and_call
+
+    @check_alive
     def set_world(self, world):
         '''
         Sets the world an entity belongs to.
@@ -144,19 +179,23 @@ class Entity(object):
             raise NonUniqueTagError(self._tag)
         else:
             self._world = world
+            world.add_entity(self, True)
 
+    @check_alive
     def get_uuid(self):
         '''
         Returns uuid
         '''
         return self._uuid
 
+    @check_alive
     def get_tag(self):
         '''
         Returns tag
         '''
         return self._tag
 
+    @check_alive
     def set_tag(self, tag):
         '''
         Sets the tag.
@@ -167,13 +206,27 @@ class Entity(object):
                 raise NonUniqueTagError(tag)
         self._tag = tag
 
+    @check_alive
+    def kill(self):
+        '''Kills Entity'''
+        if self._world:
+            self._world.remove_entity(self, True)
+            self._world = None
+        self._tag = None
+        self._uuid = None
+        self._components = None
+
+    @check_alive
     def add_component(self, component):
         '''
         Adds a Component to an Entity
         '''
         if component not in self._components:
             self._components.append(component)
+        else:  # Replace Component
+            self._components[self._components.index(component)] = component
 
+    @check_alive
     def get_component(self, component_type):
         '''
         Gets component of component_type or returns None
@@ -187,6 +240,7 @@ class Entity(object):
         else:
             return None
 
+    @check_alive
     def get_components(self):
         '''
         Returns all components
