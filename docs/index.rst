@@ -14,6 +14,7 @@ Contents:
    readme
    installation
    usage
+   rui
    contributing
    authors
    history

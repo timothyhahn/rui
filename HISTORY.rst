@@ -3,6 +3,10 @@
 History
 -------
 
+0.3.2(2014-1-26)
+++++++++++++++++++
+* Added API documentation
+
 0.3.1(2014-1-25)
 ++++++++++++++++++
 * Realized I already had an installation and usage section
