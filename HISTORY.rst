@@ -3,6 +3,11 @@
 History
 -------
 
+0.3.0(2014-1-25)
+++++++++++++++++++
+* Added usage documentation
+* Fixed capitalization in tests
+
 0.2.2(2014-1-25)
 ++++++++++++++++++
 * Syntax error!

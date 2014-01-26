@@ -80,9 +80,9 @@ class TestRui(unittest.TestCase):
         entity.add_component(Counter(0))
         entity.add_component(Counter(0))
         self.world.add_entity(entity)
-        countSystem = CountSystem()
-        self.world.add_system(countSystem)
-        countSystem.process(1)
+        count_system = CountSystem()
+        self.world.add_system(count_system)
+        count_system.process(1)
         self.assertEqual(entity.get_component(Counter).count, 1)
         self.world.process()
         self.assertEqual(entity.get_component(Counter).count, 2)
@@ -95,11 +95,11 @@ class TestRui(unittest.TestCase):
             self.world.add_entity(entity)
 
     def test_duplicate_system_error(self):
-        countSystem = CountSystem()
+        count_system = CountSystem()
         duplicateCountSystem = CountSystem()
-        self.world.add_system(countSystem)
+        self.world.add_system(count_system)
         with self.assertRaises(DuplicateSystemError):
-            self.world.add_system(countSystem)
+            self.world.add_system(count_system)
             self.world.add_system(duplicateCountSystem)
 
     def test_unmanaged_entity_error(self):
