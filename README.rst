@@ -14,8 +14,11 @@ rui (叡)
 
 An imperfect Python ECS
 
-* Free software: BSD license
 * Documentation: http://rui.rtfd.org.
+* Github: http://github.com/timothyhahn/rui
+* Free software: BSD license
+* PyPI: https://pypi.python.org/pypi/rui/
+
 
 Features
 --------
