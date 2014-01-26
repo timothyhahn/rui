@@ -3,6 +3,10 @@
 History
 -------
 
+0.3.1(2014-1-25)
+++++++++++++++++++
+* Realized I already had an installation and usage section
+
 0.3.0(2014-1-25)
 ++++++++++++++++++
 * Added usage documentation
