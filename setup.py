@@ -19,7 +19,7 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
     name='rui',
-    version='0.2.1',
+    version='0.2.2',
     description='An imperfect Python ECS',
     long_description=readme + '\n\n' + history,
     author='Timothy Hahn',
