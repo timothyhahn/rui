@@ -3,6 +3,13 @@
 History
 -------
 
+0.3.3(2014-1-26)
+++++++++++++++++++
+* Updated README with GitHub and PyPI links
+* Systems can now be removed
+* Entities can now be removed
+* Entities will now check if they are alive or else raise an exception
+
 0.3.2(2014-1-26)
 ++++++++++++++++++
 * Added API documentation
