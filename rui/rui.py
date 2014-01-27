@@ -110,8 +110,8 @@ class World(object):
         All members of components must be of type Component
         '''
         return list(filter(lambda entity:
-                           set(map(type, entity.get_components())) ==
-                           set(components),
+                           set(components) <=
+                           set(map(type, entity.get_components())),
                            self._entities))
 
     def get_entities(self):

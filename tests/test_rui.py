@@ -25,6 +25,11 @@ class Counter(Component):
         self.count = count
 
 
+class Empty(Component):
+    def __init__(self):
+        pass
+
+
 class CountSystem(System):
     def process(self, delta):
         entities = self.world.get_entities_by_components(Counter)
@@ -53,6 +58,26 @@ class TestRui(unittest.TestCase):
         getCounter = entity.get_component(Counter)
         self.assertEqual(replaceCounter, getCounter)
         self.assertEqual(getCounter.count, 1)
+
+    def test_get_entites_by_components(self):
+        entity = self.world.create_entity()
+        entity.add_component(Counter(0))
+        entity.add_component(Empty())
+        empty_entity = self.world.create_entity()
+        empty_entity.add_component(Empty())
+        self.world.add_entity(entity)
+        self.world.add_entity(empty_entity)
+
+        partial_entities = self.world.get_entities_by_components(Counter)
+        self.assertEqual(len(partial_entities), 1)
+
+        full_entities = self.world.get_entities_by_components(Counter, Empty)
+        self.assertEqual(len(full_entities), 1)
+        self.assertEqual(full_entities, partial_entities)
+
+        empty_entities = self.world.get_entities_by_components(Empty)
+        self.assertEqual(len(empty_entities), 2)
+        self.assertTrue(empty_entity in empty_entities)
 
     ## Testing Entities
     def test_add_entity(self):
