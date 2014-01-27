@@ -23,8 +23,8 @@ Usage
             entities = self.world.get_entities_by_components(Position, Velocity)
 
             for entity in entities:
-                position = entity.getComponent(Position)
-                velocity = entity.getComponent(Velocity)
+                position = entity.get_component(Position)
+                velocity = entity.get_component(Velocity)
                 position.x += velocity.x * delta
                 position.y += velocity.y * delta
 
