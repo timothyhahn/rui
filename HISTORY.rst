@@ -3,6 +3,11 @@
 History
 -------
 
+0.8.0(2014-1-27)
+++++++++++++++++++
+* Added example to README
+* Works decently well now!
+
 0.3.8(2014-1-27)
 ++++++++++++++++++
 * You can now remove entities from groups
