@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 from abc import abstractmethod, ABCMeta
 from uuid import uuid1
@@ -64,6 +64,16 @@ class World(object):
         else:
             raise UnmanagedEntityError(entity)
 
+    def deregister_entity_from_group(self, entity, group):
+        '''
+        Removes entity from group
+        '''
+        if entity in self._entities:
+            if entity in self._groups[group]:
+                self._groups[group].remove(entity)
+        else:
+            raise UnmanagedEntityError(entity)
+
     def create_entity(self, tag=''):
         '''
         Creates Entity
@@ -77,6 +87,9 @@ class World(object):
         '''
         if entity in self._entities:
             if second:
+                for group in self._groups.keys():
+                    if entity in self._groups[group]:
+                        self.deregister_entity_from_group(entity, group)
                 self._entities.remove(entity)
             else:
                 entity.kill()

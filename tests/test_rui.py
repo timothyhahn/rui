@@ -109,15 +109,21 @@ class TestRui(unittest.TestCase):
     def test_kill_entity(self):
         entity = self.world.create_entity('KILL')
         self.world.add_entity(entity)
+        self.world.register_entity_to_group(entity, 'DYING')
+        self.assertEquals(len(self.world.get_group('DYING')), 1)
         self.assertTrue(entity in self.world.get_entities())
         entity.kill()
         self.assertFalse(entity in self.world.get_entities())
+        self.assertEquals(len(self.world.get_group('DYING')), 0)
 
         entity = self.world.create_entity('KILL')
         self.world.add_entity(entity)
+        self.world.register_entity_to_group(entity, 'DYING')
+        self.assertEquals(len(self.world.get_group('DYING')), 1)
         self.assertTrue(entity in self.world.get_entities())
         self.world.remove_entity(entity)
         self.assertFalse(entity in self.world.get_entities())
+        self.assertEquals(len(self.world.get_group('DYING')), 0)
         with self.assertRaises(DeadEntityError):
             entity.kill()
 
