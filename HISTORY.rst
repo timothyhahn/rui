@@ -3,6 +3,11 @@
 History
 -------
 
+0.3.4(2014-1-26)
+++++++++++++++++++
+* Updated usage documentation to fix typo
+* Added partial (subset) component selection
+
 0.3.3(2014-1-26)
 ++++++++++++++++++
 * Updated README with GitHub and PyPI links
