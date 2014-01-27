@@ -3,6 +3,10 @@
 History
 -------
 
+0.3.5(2014-1-27)
+++++++++++++++++++
+* Groups now return empty list if there is no group of that name
+
 0.3.4(2014-1-26)
 ++++++++++++++++++
 * Updated usage documentation to fix typo
