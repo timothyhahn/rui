@@ -125,7 +125,10 @@ class World(object):
         Gets a specific group
         group is the string of a Group
         '''
-        return self._groups[group]
+        if group in self._groups:
+            return self._groups[group]
+        else:
+            return []
 
     def get_delta(self):
         '''
